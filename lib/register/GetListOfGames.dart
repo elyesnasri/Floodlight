@@ -16,9 +16,37 @@ class GetListOfGames extends StatelessWidget {
                 print('Card tapped.');
               },
               child: Container(
-                width: 300,
-                child: Text('Jan vs Hamburg'),
-                alignment: Alignment(0.0, 0.0),
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      child: Row(
+                        children: <Widget>[
+                          new Image.asset(
+                            'lib/assets/Jahn_Logo.png',
+                            width: 75.0,
+                            height: 75.0,
+                          ),
+                          Text(
+                            "  -  ",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                            textScaleFactor: 3,
+                          ),
+                          new Image.asset(
+                            'lib/assets/Jahn_Logo.png',
+                            width: 75.0,
+                            height: 75.0,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(child: Text("25.07.2019")),
+                  ],
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                ),
               ),
             ),
           ),
@@ -31,9 +59,37 @@ class GetListOfGames extends StatelessWidget {
                 print('Card tapped.');
               },
               child: Container(
-                width: 300,
-                child: Text('Jan vs Kiel'),
-                alignment: Alignment(0.0, 0.0),
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      child: Row(
+                        children: <Widget>[
+                          new Image.asset(
+                            'lib/assets/Jahn_Logo.png',
+                            width: 75.0,
+                            height: 75.0,
+                          ),
+                          Text(
+                            "  -  ",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                            textScaleFactor: 3,
+                          ),
+                          new Image.asset(
+                            'lib/assets/Jahn_Logo.png',
+                            width: 75.0,
+                            height: 75.0,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(child: Text("20.08.2019")),
+                  ],
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                ),
               ),
             ),
           ),
@@ -46,9 +102,37 @@ class GetListOfGames extends StatelessWidget {
                 print('Card tapped.');
               },
               child: Container(
-                width: 300,
-                child: Text('Jan vs Bayern'),
-                alignment: Alignment(0.0, 0.0),
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      child: Row(
+                        children: <Widget>[
+                          new Image.asset(
+                            'lib/assets/Jahn_Logo.png',
+                            width: 75.0,
+                            height: 75.0,
+                          ),
+                          Text(
+                            "  -  ",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                            textScaleFactor: 3,
+                          ),
+                          new Image.asset(
+                            'lib/assets/Jahn_Logo.png',
+                            width: 75.0,
+                            height: 75.0,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(child: Text("13.09.2019")),
+                  ],
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                ),
               ),
             ),
           ),
