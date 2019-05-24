@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../routes.dart';
+import 'FootballEvent.dart';
 import 'User.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Hello " + _user.name),
+          title: Text("Floodlight"),
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.menu),
@@ -39,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Column(
           children: <Widget>[
             Container(
+              margin: EdgeInsets.only(top: 30.0),
               child: Center(
                 child: Text(
                   "Deine anstehenden Events:",
@@ -48,17 +50,21 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: EdgeInsets.symmetric(vertical: 12.0),
               width: double.infinity,
             ),
-            Divider(),
-            RaisedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(Routes.detailScreen);
-              },
-              color: Colors.red,
-              child: Text(
-                "To DetailScreen",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
+
+            Container(
+              height: 360.0,
+              padding: EdgeInsets.symmetric(horizontal: 24.0),
+              decoration: BoxDecoration(
+
+              ),
+              child: FutureBuilder<List<FootballEvent>>(
+                future: fetchEventData(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  return snapshot.hasData
+                      ? ListViewFootballEvents(footballEvents: snapshot.data,)
+                      : Center(child: CircularProgressIndicator());
+                },
+
               ),
             ),
           ],
@@ -72,4 +78,55 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
+
+  Future<List<FootballEvent>> fetchEventData() async {
+    final response = await FootballEvent_dummy.getDummyData();
+
+    return response;
+  }
+
+
+
+class ListViewFootballEvents extends StatelessWidget {
+  final List<FootballEvent> footballEvents;
+
+  ListViewFootballEvents({
+    Key key,
+    this.footballEvents,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scrollbar(
+      child: ListView.builder(
+        itemCount: footballEvents.length,
+        itemBuilder: (context, position) {
+          return Column(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 12.0),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      width: 0.2,
+                    ),
+                  ),
+                ),
+                child: ListTile(
+                  title: Text("${footballEvents[position].homeTeam} - ${footballEvents[position].againstTeam}\nDatum: ${footballEvents[position].date}"),
+                  leading: footballEvents[position].isDriver ? Icon(Icons.directions_car) : Icon(Icons.person),
+                  onTap: () {
+
+                    Navigator.of(context).pushNamed(Routes.detailScreen, arguments: footballEvents[position]);
+                  },
+                ),
+              )
+            ],
+          );
+        },
+      ),
+    );
+  }
+
 }
