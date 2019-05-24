@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Hello " + _user.name),
+          title: Text("Floodlight"),
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.menu),
