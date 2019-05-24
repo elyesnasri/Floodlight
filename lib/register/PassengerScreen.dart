@@ -1,4 +1,5 @@
 import 'package:floodlight/register/ConfirmBuy.dart';
+import 'package:floodlight/register/GetListOfGames.dart';
 import 'package:flutter/material.dart';
 
 class PassengerScreen extends StatefulWidget {
@@ -21,35 +22,9 @@ class _PassengerDemoState extends State<PassengerScreen> {
             ),
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(0, 10, 0, 20),
-            height: 200.0,
-            child: ListView(
-              // This next line does the trick.
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                Container(
-                  width: 300.0,
-                  color: Colors.red,
-                ),
-                Container(
-                  width: 300.0,
-                  color: Colors.blue,
-                ),
-                Container(
-                  width: 300.0,
-                  color: Colors.green,
-                ),
-                Container(
-                  width: 300.0,
-                  color: Colors.yellow,
-                ),
-                Container(
-                  width: 300.0,
-                  color: Colors.orange,
-                ),
-              ],
-            ),
-          ),
+              margin: EdgeInsets.fromLTRB(0, 10, 0, 20),
+              height: 200.0,
+              child: GetListOfGames()),
           _GetDriveLit(),
         ],
       ),
@@ -79,12 +54,16 @@ class _GetDriveLit extends StatelessWidget {
               title: Text('Wurst'),
               subtitle: Text("1 Platz frei"),
               trailing: Text("20€"),
+              onTap: () => ConfirmBuy.showPopUp(context, "Platz buchen?",
+                  "Jetzt noch den Platz ganz einfach buchen.", "weiter"),
             ),
             ListTile(
               leading: Icon(Icons.person),
               title: Text('Lustig'),
               subtitle: Text("5 Plätze frei"),
               trailing: Text("25€"),
+              onTap: () => ConfirmBuy.showPopUp(context, "Platz buchen?",
+                  "Jetzt noch den Platz ganz einfach buchen.", "weiter"),
             ),
           ],
         ),
