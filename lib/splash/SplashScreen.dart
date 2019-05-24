@@ -6,14 +6,15 @@ import 'package:flutter/widgets.dart';
 import '../routes.dart';
 
 class SplashScreen extends StatefulWidget {
-
-
   @override
   State<StatefulWidget> createState() => new _SplashScreenState();
-
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  double opacity = 0;
+
+  Duration animationDuration = Duration(milliseconds: 1500);
+
   @override
   initState() {
     super.initState();
@@ -22,23 +23,30 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Timer(Duration(), () {
+      setState(() {
+        opacity = 1;
+      });
+    });
 
     return new Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       color: Colors.white,
       alignment: Alignment.center,
-      child: new Stack(
-        children: <Widget>[
-          new Image.asset(
-            'lib/assets/Jahn_Logo.png',
-            width: 175.0,
-            height: 175.0,
-          ),
-        ],
+      child: AnimatedOpacity(
+        duration: animationDuration,
+        opacity: opacity,
+        child: new Stack(
+          children: <Widget>[
+            new Image.asset(
+              'lib/assets/Jahn_Logo.png',
+              width: 175.0,
+              height: 175.0,
+            ),
+          ],
+        ),
       ),
-
-
     );
   }
 
@@ -46,7 +54,6 @@ class _SplashScreenState extends State<SplashScreen> {
     Navigator.of(context).pushReplacementNamed(Routes.homeScreen);
   }
 }
-
 
 /*
 appBar: AppBar(
