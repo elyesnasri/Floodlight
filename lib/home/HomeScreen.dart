@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../routes.dart';
+import 'FootballEvent.dart';
 import 'User.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -58,6 +59,20 @@ class _HomeScreenState extends State<HomeScreen> {
             Divider(
 
             ),
+
+            Container(
+              height: 300.0,
+              child: FutureBuilder<List<FootballEvent>>(
+                future: fetchEventData(), 
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  return snapshot.hasData
+                      ? ListViewFootballEvents(footballEvents: snapshot.data,)
+                      : Center(child: CircularProgressIndicator());
+                },
+
+              ),
+            ),
+
             RaisedButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(Routes.detailScreen);
@@ -81,6 +96,46 @@ class _HomeScreenState extends State<HomeScreen> {
             Icons.add
           ),
         ),
+      ),
+    );
+  }
+
+  Future<List<FootballEvent>> fetchEventData() async {
+    final response = await FootballEvent_dummy.getDummyData();
+
+    return response;
+  }
+
+}
+
+class ListViewFootballEvents extends StatelessWidget {
+  final List<FootballEvent> footballEvents;
+
+  ListViewFootballEvents({
+    Key key,
+    this.footballEvents,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scrollbar(
+      child: ListView.builder(
+        itemCount: footballEvents.length,
+        itemBuilder: (context, position) {
+          return Column(
+            children: <Widget>[
+              Divider(height: 5.0),
+              ListTile(
+                title: Text("${footballEvents[position].homeTeam} - ${footballEvents[position].againstTeam}\nDatum: ${footballEvents[position].date}"),
+                leading: footballEvents[position].isDriver ? Icon(Icons.directions_car) : Icon(Icons.person),
+                onTap: () {
+                  
+                  Navigator.of(context).pushNamed(Routes.detailScreen);
+                },
+              )
+            ],
+          );
+        },
       ),
     );
   }
