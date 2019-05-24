@@ -1,4 +1,5 @@
 import 'package:floodlight/register/ConfirmBuy.dart';
+import 'package:floodlight/register/GetListOfGames.dart';
 import 'package:flutter/material.dart';
 
 class DriverScreen extends StatefulWidget {
@@ -26,32 +27,7 @@ class _NumberCountDemoState extends State<DriverScreen> {
           Container(
             margin: EdgeInsets.fromLTRB(0, 10, 0, 20),
             height: 200.0,
-            child: ListView(
-              // This next line does the trick.
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                Container(
-                  width: 300.0,
-                  color: Colors.red,
-                ),
-                Container(
-                  width: 300.0,
-                  color: Colors.blue,
-                ),
-                Container(
-                  width: 300.0,
-                  color: Colors.green,
-                ),
-                Container(
-                  width: 300.0,
-                  color: Colors.yellow,
-                ),
-                Container(
-                  width: 300.0,
-                  color: Colors.orange,
-                ),
-              ],
-            ),
+            child: GetListOfGames(),
           ),
           new Text(
             'Anzahl freie Plätze:',
