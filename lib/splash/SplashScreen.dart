@@ -11,7 +11,7 @@ class SplashScreen extends StatelessWidget {
     return SafeArea(
       child: new Scaffold(
         appBar: AppBar(
-          title: Text("Ur mum gay!"),
+          title: Text("Ur mum gayyyy!"),
         ),
         body: Center(
           child: Column(
@@ -26,6 +26,12 @@ class SplashScreen extends StatelessWidget {
                 child: Text("To Detail"),
                 onPressed: () {
                   Navigator.of(context).pushReplacementNamed(Routes.detailScreen);
+                },
+              ),
+              RaisedButton(
+                child: Text("To Register"),
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed(Routes.registerScreen);
                 },
               ),
               RaisedButton(
