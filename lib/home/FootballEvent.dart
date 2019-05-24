@@ -33,4 +33,10 @@ class FootballEvent_dummy {
 
     return _data;
   }
+
+  static Future<List<FootballEvent>> getEmptyDummyData() async {
+    List<FootballEvent> _data = <FootballEvent>[];
+
+    return _data;
+  }
 }

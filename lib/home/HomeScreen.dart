@@ -42,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Column(
           children: <Widget>[
             Container(
+              margin: EdgeInsets.only(top: 30.0),
               child: Center(
                 child: Text(
                   "Deine anstehenden Events:", 
@@ -56,12 +57,13 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: EdgeInsets.symmetric(vertical: 12.0),
               width: double.infinity,
             ),
-            Divider(
-
-            ),
 
             Container(
-              height: 300.0,
+              height: 360.0,
+              padding: EdgeInsets.symmetric(horizontal: 24.0),
+              decoration: BoxDecoration(
+                
+              ),
               child: FutureBuilder<List<FootballEvent>>(
                 future: fetchEventData(), 
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -72,20 +74,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
               ),
             ),
-
-            RaisedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(Routes.detailScreen);
-              },
-              color: Colors.red,
-              child: Text(
-                "To DetailScreen",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            
           ],
         ),
         floatingActionButton: FloatingActionButton(
@@ -124,14 +112,23 @@ class ListViewFootballEvents extends StatelessWidget {
         itemBuilder: (context, position) {
           return Column(
             children: <Widget>[
-              Divider(height: 5.0),
-              ListTile(
-                title: Text("${footballEvents[position].homeTeam} - ${footballEvents[position].againstTeam}\nDatum: ${footballEvents[position].date}"),
-                leading: footballEvents[position].isDriver ? Icon(Icons.directions_car) : Icon(Icons.person),
-                onTap: () {
-                  
-                  Navigator.of(context).pushNamed(Routes.detailScreen);
-                },
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 12.0),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      width: 0.2,
+                    ),
+                  ),
+                ),
+                child: ListTile(
+                  title: Text("${footballEvents[position].homeTeam} - ${footballEvents[position].againstTeam}\nDatum: ${footballEvents[position].date}"),
+                  leading: footballEvents[position].isDriver ? Icon(Icons.directions_car) : Icon(Icons.person),
+                  onTap: () {
+                    
+                    Navigator.of(context).pushNamed(Routes.detailScreen, arguments: footballEvents[position]);
+                  },
+                ),
               )
             ],
           );
