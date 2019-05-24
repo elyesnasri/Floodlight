@@ -1,3 +1,4 @@
+import 'package:floodlight/register/ConfirmBuy.dart';
 import 'package:flutter/material.dart';
 
 class PassengerScreen extends StatefulWidget {
@@ -70,6 +71,8 @@ class _GetDriveLit extends StatelessWidget {
               title: Text('Hans'),
               subtitle: Text("3 Plätze frei"),
               trailing: Text("3€"),
+              onTap: () => ConfirmBuy.showPopUp(context, "Platz buchen?",
+                  "Jetzt noch den Platz ganz einfach buchen.", "weiter"),
             ),
             ListTile(
               leading: Icon(Icons.person),

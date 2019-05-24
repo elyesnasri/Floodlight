@@ -1,3 +1,4 @@
+import 'package:floodlight/register/ConfirmBuy.dart';
 import 'package:flutter/material.dart';
 
 class DriverScreen extends StatefulWidget {
@@ -86,7 +87,8 @@ class _NumberCountDemoState extends State<DriverScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //Navigator.of(context).pushNamed(Routes.registerScreen);
+          ConfirmBuy.showPopUp(context, "Fahrt veröftlichen?",
+              "Andere können sich bei dir melden.", "weiter");
         },
         child: Icon(Icons.check),
       ),
