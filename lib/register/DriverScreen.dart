@@ -8,6 +8,7 @@ class DriverScreen extends StatefulWidget {
 
 class _NumberCountDemoState extends State<DriverScreen> {
   int _n = 0;
+  bool _isVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +45,9 @@ class _NumberCountDemoState extends State<DriverScreen> {
                   setState(() {
                     if (_n != 0 && _n != 1) {
                       _n--;
+                      if (_n < 1) {
+                        _isVisible = false;
+                      }
                     }
                   });
                 },
@@ -54,6 +58,9 @@ class _NumberCountDemoState extends State<DriverScreen> {
                 onPressed: () {
                   setState(() {
                     _n++;
+                    if (_n >= 1) {
+                      _isVisible = true;
+                    }
                   });
                 },
               ),
@@ -61,12 +68,15 @@ class _NumberCountDemoState extends State<DriverScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          ConfirmBuy.showPopUp(context, "Fahrt veröftlichen?",
-              "Andere können sich bei dir melden.", "weiter");
-        },
-        child: Icon(Icons.check),
+      floatingActionButton: Visibility(
+        visible: _isVisible,
+        child: FloatingActionButton(
+          onPressed: () {
+            ConfirmBuy.showPopUp(context, "Fahrt veröftlichen?",
+                "Andere können sich bei dir melden.", "weiter");
+          },
+          child: Icon(Icons.check),
+        ),
       ),
     );
   }
