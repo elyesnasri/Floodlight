@@ -1,4 +1,5 @@
 import 'package:floodlight/register/DriverScreen.dart';
+import 'package:floodlight/register/PassengerScreen.dart';
 import 'package:flutter/material.dart';
 
 import 'DriverScreen.dart';
@@ -6,8 +7,8 @@ import 'DriverScreen.dart';
 class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: DefaultTabController(
+    return new Scaffold(
+      body: DefaultTabController(
         length: 2,
         child: Scaffold(
           appBar: AppBar(
@@ -19,25 +20,18 @@ class RegisterScreen extends StatelessWidget {
             ),
             title: Text('Register'),
           ),
-          body: DriverScreen(),
-          // body: TabBarView(
-          //   children: [
-          //     Container(
-          //       child: DriverScreen(),
-          //     ),
-          //     // DriverScreen(),
-          //     //Passenger body
-          //     Container(
-          //       margin: EdgeInsets.symmetric(vertical: 20.0),
-          //       child: Text(
-          //         'Mitfahrt finden',
-          //         textAlign: TextAlign.center,
-          //         overflow: TextOverflow.ellipsis,
-          //         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-          //       ),
-          //     ),
-          //   ],
-          // ),
+          body: TabBarView(
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 20.0),
+                child: DriverScreen(),
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 20.0),
+                child: PassengerScreen(),
+              ),
+            ],
+          ),
         ),
       ),
     );

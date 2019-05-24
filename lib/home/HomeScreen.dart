@@ -5,7 +5,6 @@ import '../routes.dart';
 import 'User.dart';
 
 class HomeScreen extends StatefulWidget {
-
   @override
   _HomeScreenState createState() {
     return _HomeScreenState();
@@ -37,27 +36,19 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        
         body: Column(
           children: <Widget>[
             Container(
               child: Center(
                 child: Text(
-                  "Deine anstehenden Events:", 
-                  style: TextStyle(
-                    fontSize: 22.0,
-                    color: Colors.red
-                  ),
+                  "Deine anstehenden Events:",
+                  style: TextStyle(fontSize: 22.0, color: Colors.red),
                 ),
-                
               ),
-              
               padding: EdgeInsets.symmetric(vertical: 12.0),
               width: double.infinity,
             ),
-            Divider(
-
-            ),
+            Divider(),
             RaisedButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(Routes.detailScreen);
@@ -70,19 +61,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            
           ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.of(context).pushNamed(Routes.registerDriverScreen);
+            Navigator.of(context).pushNamed(Routes.registerScreen);
           },
-          child: Icon(
-            Icons.add
-          ),
+          child: Icon(Icons.add),
         ),
       ),
     );
   }
-
 }

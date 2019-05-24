@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
 
-class DriverScreen extends StatefulWidget {
-  createState() => _NumberCountDemoState();
+class PassengerScreen extends StatefulWidget {
+  createState() => _PassengerDemoState();
 }
 
-class _NumberCountDemoState extends State<DriverScreen> {
-  int _n = 0;
-
+class _PassengerDemoState extends State<PassengerScreen> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return new Scaffold(
       body: Column(
         children: <Widget>[
           Container(
             margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
             child: new Text(
-              'Fahrt anbieten',
+              'Mitfahrt finden',
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
@@ -52,43 +49,42 @@ class _NumberCountDemoState extends State<DriverScreen> {
               ],
             ),
           ),
-          new Text(
-            'Anzahl freie Plätze:',
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 20.0),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.minimize),
-                onPressed: () {
-                  setState(() {
-                    if (_n != 0 && _n != 1) {
-                      _n--;
-                    }
-                  });
-                },
-              ),
-              Text('$_n', style: TextStyle(fontSize: 60.0)),
-              IconButton(
-                icon: Icon(Icons.add),
-                onPressed: () {
-                  setState(() {
-                    _n++;
-                  });
-                },
-              ),
-            ],
-          ),
+          _GetDriveLit(),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          //Navigator.of(context).pushNamed(Routes.registerScreen);
-        },
-        child: Icon(Icons.check),
+    );
+  }
+}
+
+class _GetDriveLit extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Container(
+      height: 300.0,
+      child: Scrollbar(
+        child: ListView(
+          children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Hans'),
+              subtitle: Text("3 Plätze frei"),
+              trailing: Text("3€"),
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Wurst'),
+              subtitle: Text("1 Platz frei"),
+              trailing: Text("20€"),
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Lustig'),
+              subtitle: Text("5 Plätze frei"),
+              trailing: Text("25€"),
+            ),
+          ],
+        ),
       ),
     );
   }
