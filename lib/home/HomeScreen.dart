@@ -58,11 +58,25 @@ class _HomeScreenState extends State<HomeScreen> {
             Divider(
 
             ),
-
+            RaisedButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(Routes.detailScreen);
+              },
+              color: Colors.red,
+              child: Text(
+                "To DetailScreen",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => showSelectionDialog(context),
+          onPressed: () {
+            Navigator.of(context).pushNamed(Routes.registerDriverScreen);
+          },
           child: Icon(
             Icons.add
           ),
@@ -71,64 +85,4 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-
-  void showSelectionDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return SimpleDialog(
-          backgroundColor: Colors.black12,
-          contentPadding: EdgeInsets.symmetric(vertical: 48.0, horizontal: 24.0),
-
-          children: <Widget>[
-            SimpleDialogOption(
-              child: FlatButton(
-                padding: EdgeInsets.symmetric(vertical: 36.0),
-                color: Colors.red,
-                child: Center(
-                  child: Text(
-                    "Fahrt anbieten",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                ),
-                onPressed: () {
-                  print("registered as driver");
-                  Navigator.of(context).pushNamed(Routes.registerDriverScreen);
-                  
-                },
-              ),
-            ),
-
-            SizedBox(
-              height: 24.0,
-              width: double.infinity,
-            ),
-
-            SimpleDialogOption(
-              child: FlatButton(
-                padding: EdgeInsets.symmetric(vertical: 36.0),
-                color: Colors.red,
-                child: Center(
-                  child: Text(
-                    "Fahrgelegenheit suchen",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                ),
-                onPressed: () {
-                  print("registered as passenger");
-                  Navigator.of(context).pushNamed(Routes.registerPassengerScreen);
-                },
-              ),
-            ),
-          ],
-        );
-      }
-    );
-  }
 }
