@@ -86,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return response;
   }
 
-}
+
 
 class ListViewFootballEvents extends StatelessWidget {
   final List<FootballEvent> footballEvents;
