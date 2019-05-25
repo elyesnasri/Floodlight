@@ -13,10 +13,20 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      username: json["username"] as String,
-      name: json["name"] as String,
+      username: extractUsername(json),
+      name: extractName(json),
       location: Location.fromJson(json["location"]),
     );
+  }
+
+  static String extractUsername(Map<String, dynamic> json) {
+    Map<String, dynamic> map = json["user"];
+    return map["username"];
+  }
+
+  static String extractName(Map<String, dynamic> json) {
+    Map<String, dynamic> map = json["user"];
+    return map["name"];
   }
 
 }
