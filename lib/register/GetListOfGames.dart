@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:date_format/date_format.dart';
 import 'package:floodlight/data/DriveData.dart';
 import 'package:floodlight/datamodel/Game.dart';
 import 'package:flutter/material.dart';
@@ -8,33 +9,37 @@ import 'package:http/http.dart' as http;
 
 import 'TeamData.dart';
 
+typedef IndexCallback = void Function(Game game);
+
 class GetListOfGames extends StatefulWidget {
+  final IndexCallback onSelectedCallback;
+
+  const GetListOfGames({Key key, this.onSelectedCallback}): super(key: key);
+
   @override
   _GetListOfGamesState createState() => _GetListOfGamesState();
 }
 
 class _GetListOfGamesState extends State<GetListOfGames> {
-  int _selectedIndex = 0;
-  final List<String> _listViewData = [
-    "03.05.2019",
-    "12.06.2019",
-    "04.09.2019",
-  ];
+  int selectedIndex = 0;
+  List<Game> games;
+
 
   _onSelected(int index) {
-    setState(() => _selectedIndex = index);
-    print(_selectedIndex);
+    setState(() => selectedIndex = index);
+    print(selectedIndex);
+    widget.onSelectedCallback(games[index]);
   }
 
   @override
   Widget build(BuildContext context) {
 
-
     return FutureBuilder<List<Game>>(
       future: fetchGames(http.Client()),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
-            return buildListView(snapshot.data);
+            games = snapshot.data;
+            return buildListView(games);
           } else if (snapshot.hasError) {
             print(snapshot.error);
             return Text("${snapshot.error}");
@@ -51,7 +56,7 @@ class _GetListOfGamesState extends State<GetListOfGames> {
       itemCount: games.length,
       itemBuilder: (context, index) => Container(
         child: Card(
-          color: _selectedIndex != null && _selectedIndex == index
+          color: selectedIndex != null && selectedIndex == index
               ? Colors.red
               : Colors.white,
           child: InkWell(
@@ -84,7 +89,7 @@ class _GetListOfGamesState extends State<GetListOfGames> {
                       ],
                     ),
                   ),
-                  Container(child: Text(_listViewData[index])),
+                  Container(child: Text(formatDate(games[index].date, [HH, ':', nn, ' Uhr']))),
                 ],
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,

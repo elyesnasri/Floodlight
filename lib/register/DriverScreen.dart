@@ -1,3 +1,4 @@
+import 'package:floodlight/datamodel/Game.dart';
 import 'package:floodlight/register/ConfirmBuy.dart';
 import 'package:floodlight/register/GetListOfGames.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ class DriverScreen extends StatefulWidget {
 class _NumberCountDemoState extends State<DriverScreen> {
   int _n = 0;
   bool _isVisible = false;
+  Game game;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class _NumberCountDemoState extends State<DriverScreen> {
           Container(
             margin: EdgeInsets.fromLTRB(0, 10, 0, 20),
             height: 200.0,
-            child: GetListOfGames(),
+            child: GetListOfGames(onSelectedCallback: (arg) => game = arg),
           ),
           new Text(
             'Anzahl freie Plätze:',
@@ -40,7 +42,7 @@ class _NumberCountDemoState extends State<DriverScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               IconButton(
-                icon: Icon(Icons.minimize),
+                icon: Icon(Icons.remove),
                 onPressed: () {
                   setState(() {
                     if (_n != 0 && _n != 1) {
@@ -72,8 +74,9 @@ class _NumberCountDemoState extends State<DriverScreen> {
         visible: _isVisible,
         child: FloatingActionButton(
           onPressed: () {
-            ConfirmBuy.showPopUp(context, "Fahrt veröftlichen?",
-                "Andere können sich bei dir melden.", "weiter");
+            ConfirmBuy.showDriverPopUp(context, "Fahrt veröftlichen?",
+                "Andere können sich bei dir melden.", "weiter", game, _n);
+
           },
           child: Icon(Icons.check),
         ),
