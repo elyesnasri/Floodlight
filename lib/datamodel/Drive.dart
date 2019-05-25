@@ -15,4 +15,14 @@ class Drive {
     this.passengers,
     this.game
   });
+
+  factory Drive.fromJson(Map<String, dynamic> json) {
+    return Drive(
+      driveId: json["id"] as String,
+      freeSeats: json["seats"] as int,
+      driver: new User.fromJson(json["driverMapping"]),
+      passengers: (json["passengerMappings"] as List).map((entry) => User.fromJson(entry)).toList(),
+      game: new Game.fromJson(json["game"]),
+    );
+  }
 }
