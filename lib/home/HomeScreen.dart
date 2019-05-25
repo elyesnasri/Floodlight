@@ -1,5 +1,13 @@
+import 'dart:convert';
+
+import 'package:floodlight/data/DriveData.dart';
+import 'package:floodlight/data/UserData.dart';
+import 'package:floodlight/datamodel/Drive.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:http/http.dart' as http;
+import 'package:date_format/date_format.dart';
 
 import '../routes.dart';
 import 'FootballEvent.dart';
@@ -31,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 } else {
                   _hiddenUserSettingsCounter = 0;
                   print("Enter unser data");
-                  // TODO: Implement change of user data
+                  Navigator.of(context).pushNamed(Routes.settingsScreen);
                 }
               },
             ),
@@ -50,21 +58,22 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: EdgeInsets.symmetric(vertical: 12.0),
               width: double.infinity,
             ),
-
             Container(
               height: 360.0,
               padding: EdgeInsets.symmetric(horizontal: 24.0),
-              decoration: BoxDecoration(
-
-              ),
-              child: FutureBuilder<List<FootballEvent>>(
-                future: fetchEventData(),
+              decoration: BoxDecoration(),
+              child: FutureBuilder<List<Drive>>(
+                future: fetchDrives(http.Client()),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  return snapshot.hasData
-                      ? ListViewFootballEvents(footballEvents: snapshot.data,)
-                      : Center(child: CircularProgressIndicator());
-                },
+                  if (snapshot.hasData) {
+                    return ListViewFootballEvents(driveEvents: snapshot.data);
+                  } else if (snapshot.hasError) {
+                    print(snapshot.error);
+                    return Text("${snapshot.error}");
+                  }
 
+                  return Center(child: CircularProgressIndicator());
+                },
               ),
             ),
           ],
@@ -80,27 +89,43 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-  Future<List<FootballEvent>> fetchEventData() async {
-    final response = await FootballEvent_dummy.getDummyData();
+void fetchEventData() async {
+  drives = await fetchDrives(http.Client());
+}
 
-    return response;
+Future<List<Drive>> fetchDrives(http.Client client) async {
+  final response = await client.get(
+      "http://" + ip + ":8080/drive/getForUser?username=" + mainUser.username);
+
+  if (response.statusCode == 200) {
+    return parseDrives(response.body);
+  } else {
+    throw Exception("Failed to load");
   }
+}
 
+List<Drive> parseDrives(String responseBody) {
+  print(responseBody);
+  final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
 
+  var result = (parsed as List).map((entry) => Drive.fromJson(entry)).toList();
+  print("parsed: " + result.length.toString());
+  return result;
+}
 
 class ListViewFootballEvents extends StatelessWidget {
-  final List<FootballEvent> footballEvents;
+  final List<Drive> driveEvents;
 
   ListViewFootballEvents({
     Key key,
-    this.footballEvents,
+    this.driveEvents,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scrollbar(
       child: ListView.builder(
-        itemCount: footballEvents.length,
+        itemCount: driveEvents.length,
         itemBuilder: (context, position) {
           return Column(
             children: <Widget>[
@@ -114,11 +139,15 @@ class ListViewFootballEvents extends StatelessWidget {
                   ),
                 ),
                 child: ListTile(
-                  title: Text("${footballEvents[position].homeTeam} - ${footballEvents[position].againstTeam}\nDatum: ${footballEvents[position].date}"),
-                  leading: footballEvents[position].isDriver ? Icon(Icons.directions_car) : Icon(Icons.person),
+                  title: Text(
+                      "${driveEvents[position].game.homeTeam.name} - ${driveEvents[position].game.awayTeam.name}\n${formatDate(driveEvents[position].game.date, [dd, '.', mm, '.', yy, ' ', HH, ':', nn, ' Uhr'])}"),
+                  leading:
+                      driveEvents[position].driver.username == mainUser.username
+                          ? Icon(Icons.directions_car)
+                          : Icon(Icons.person),
                   onTap: () {
-
-                    Navigator.of(context).pushNamed(Routes.detailScreen, arguments: footballEvents[position]);
+                    Navigator.of(context).pushNamed(Routes.detailScreen,
+                        arguments: driveEvents[position]);
                   },
                 ),
               )
@@ -128,5 +157,4 @@ class ListViewFootballEvents extends StatelessWidget {
       ),
     );
   }
-
 }

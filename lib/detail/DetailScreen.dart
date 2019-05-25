@@ -1,5 +1,9 @@
 import 'dart:async';
 
+import 'package:date_format/date_format.dart';
+import 'package:floodlight/datamodel/Drive.dart';
+import 'package:floodlight/datamodel/User.dart';
+import 'package:floodlight/register/TeamData.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -28,12 +32,34 @@ class _DetailScreenState extends State<DetailScreen> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    final Drive drive = ModalRoute.of(context).settings.arguments;
+    final List<User> users = <User>[];
+    users.add(drive.driver);
+    drive.passengers.forEach((user) => users.add(user));
+
     final Set<Marker> _markers = {};
+    var markerId = 0;
     _markers.add(Marker(
-        markerId: MarkerId("1"),
-        position: LatLng(49.0023035, 12.0978763),
+      markerId: MarkerId(markerId.toString()),
+      position: LatLng(drive.driver.location.latitude, drive.driver.location.longitude),
+      infoWindow: InfoWindow(
+        title: drive.driver.name, snippet: "Startpunkt"
+      )
+    ));
+    markerId++;
+    drive.passengers.forEach((x) => _markers.add(
+        new Marker(
+          markerId: MarkerId(markerId.toString()),
+          position: LatLng(x.location.latitude, x.location.longitude),
+          infoWindow: InfoWindow(
+            title: x.name, snippet: "Haltepunkt " + (markerId++).toString()
+          )
+        )));
+    _markers.add(Marker(
+        markerId: MarkerId((markerId++).toString()),
+        position: LatLng(drive.game.destination.latitude, drive.game.destination.longitude),
         infoWindow: InfoWindow(
-            title: "Techbase Regensburg", snippet: "Hackaburg 2019")));
+            title: drive.game.homeTeam.name, snippet: "Ziel")));
     return DefaultTabController(
         length: 3,
         initialIndex: 1,
@@ -67,7 +93,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 child: Row(
                                   children: <Widget>[
                                     new Image.asset(
-                                      'lib/assets/Jahn_Logo.png',
+                                      iconMapping[drive.game.homeTeam.id],
                                       width: 75.0,
                                       height: 75.0,
                                     ),
@@ -81,7 +107,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                         textScaleFactor: 3,
                                       ),
                                     new Image.asset(
-                                      'lib/assets/Jahn_Logo.png',
+                                      iconMapping[drive.game.awayTeam.id],
                                       width: 75.0,
                                       height: 75.0,
                                     ),
@@ -94,7 +120,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 padding: EdgeInsets.symmetric(vertical: 10),
                                 child:
                                   Text(
-                                    "18.00 Uhr",
+                                    formatDate(drive.game.date, [HH, ':', nn, ' Uhr']),
                                     style:
                                       TextStyle(
                                       color: Colors.white
@@ -112,7 +138,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 padding: EdgeInsets.symmetric(vertical: 18),
                                 child:
                                 Text(
-                                  "24.05.2019",
+                                  formatDate(drive.game.date, [dd, '.', mm, '.', yy]),
                                   style: TextStyle(
                                       color: Colors.white
                                   ),
@@ -127,22 +153,23 @@ class _DetailScreenState extends State<DetailScreen> {
                           padding: EdgeInsets.symmetric(horizontal: 24),
                           child: Scrollbar(
                             child: ListView.builder(
-                              itemCount: 8,
+                              itemCount: users.length,
                               itemBuilder: (context, position) {
                                 return Column(
                                   children: <Widget>[
                                     Container(
-                                      padding: EdgeInsets.symmetric(vertical: 12.0),
+                                      padding: position == 0 ? EdgeInsets.symmetric(vertical: 18.0) : EdgeInsets.symmetric(vertical: 12.0),
                                       decoration: BoxDecoration(
                                         border: Border(
                                           bottom: BorderSide(
-                                            width: 0.2,
+                                            width: position == 0 ? 1.5 : 0.2,
+                                            color: position == 0 ? Colors.red : Colors.black,
                                           ),
                                         ),
                                       ),
                                       child: ListTile(
-                                        title: Text("kajdflkdsjlk"),
-                                        leading: Icon(Icons.person),
+                                        title: Text(users[position].name),
+                                        leading: position == 0 ? Icon(Icons.directions_car) : Icon(Icons.person),
                                       ),
                                     )
                                   ],

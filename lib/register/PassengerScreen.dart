@@ -21,10 +21,11 @@ class _PassengerDemoState extends State<PassengerScreen> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
             ),
           ),
-          Container(
-              margin: EdgeInsets.fromLTRB(0, 10, 0, 20),
-              height: 200.0,
-              child: GetListOfGames()),
+          Expanded(
+            child: Container(
+                margin: EdgeInsets.fromLTRB(0, 10, 0, 20),
+                child: GetListOfGames()),
+          ),
           _GetDriveLit(),
         ],
       ),

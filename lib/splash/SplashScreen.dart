@@ -1,7 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:floodlight/datamodel/Drive.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:http/http.dart' as http;
 
 import '../routes.dart';
 
@@ -28,6 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
         opacity = 1;
       });
     });
+
 
     return new Container(
       width: MediaQuery.of(context).size.width,
