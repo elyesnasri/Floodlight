@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:date_format/date_format.dart';
 import 'package:floodlight/data/DriveData.dart';
@@ -11,32 +12,25 @@ import 'package:floodlight/register/GetListOfGames.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-Game passengerScreenGameGlobal;
-
-
 class PassengerScreen extends StatefulWidget {
   createState() => _PassengerState();
 }
 
 class _PassengerState extends State<PassengerScreen> {
 
+  Game game;
+
   int maxTimeWaiting = 30000;
   int waitedFor = 0;
 
   Future<List<Drive>> fetchDrives(http.Client client) async {
-    while(passengerScreenGameGlobal == null && waitedFor <= maxTimeWaiting) {
-      int start = DateTime.now().millisecondsSinceEpoch;
-
-      print(passengerScreenGameGlobal);
-
-      await Future.delayed(const Duration(milliseconds: 500), () => print(waitedFor));
-
-      waitedFor += DateTime.now().millisecondsSinceEpoch - start;
-    }
+    String id;
+    if (game == null)
+      id = "5ce8bc5b7aa77e0001d13799";
 
     Location location = mainUser.location;
     final response = await client.get(
-        "http://" + ip + ":8080/drive/getPossibleDrives?gameId=" + passengerScreenGameGlobal.id + "&longitude=" + location.longitude.toString() + "&latitude=" + location.latitude.toString());
+        "http://" + ip + ":8080/drive/getPossibleDrives?gameId=" + id + "&longitude=" + location.longitude.toString() + "&latitude=" + location.latitude.toString());
 
     if (response.statusCode == 200) {
       return parseDrives(response.body);
@@ -54,6 +48,18 @@ class _PassengerState extends State<PassengerScreen> {
     return result;
   }
 
+  bool waitForGame() {
+    while(game == null && waitedFor <= maxTimeWaiting) {
+      int start = DateTime.now().millisecondsSinceEpoch;
+
+      print(game);
+
+      sleep(const Duration(milliseconds: 500));
+
+      waitedFor += DateTime.now().millisecondsSinceEpoch - start;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -68,23 +74,24 @@ class _PassengerState extends State<PassengerScreen> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
             ),
           ),
+          Container(
+              height: 200.0,
+              margin: EdgeInsets.fromLTRB(0, 10, 0, 20),
+              child: GetListOfGames(onSelectedCallback: (arg) => game = arg)),
           Expanded(
-            child: Container(
-                margin: EdgeInsets.fromLTRB(0, 10, 0, 20),
-                child: GetListOfGames(onSelectedCallback: (arg) => passengerScreenGameGlobal = arg)),
-          ),
-          FutureBuilder<List<Drive>>(
-            future: fetchDrives(http.Client()),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.hasData) {
-                return ListViewFootballEvents(driveEvents: snapshot.data);
-              } else if (snapshot.hasError) {
-                print(snapshot.error);
-                return Text("${snapshot.error}");
-              }
+            child: FutureBuilder<List<Drive>>(
+              future: fetchDrives(http.Client()),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  return ListViewFootballEvents(driveEvents: snapshot.data);
+                } else if (snapshot.hasError) {
+                  print(snapshot.error);
+                  return Text("${snapshot.error}");
+                }
 
-              return Center(child: CircularProgressIndicator());
-            },
+                return Center(child: CircularProgressIndicator());
+              },
+            ),
           ),
         ],
       ),
