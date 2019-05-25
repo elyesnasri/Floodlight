@@ -34,11 +34,28 @@ class _DetailScreenState extends State<DetailScreen> {
     final Drive drive = ModalRoute.of(context).settings.arguments;
 
     final Set<Marker> _markers = {};
+    var markerId = 0;
     _markers.add(Marker(
-        markerId: MarkerId("1"),
-        position: LatLng(49.0023035, 12.0978763),
+      markerId: MarkerId(markerId.toString()),
+      position: LatLng(drive.driver.location.latitude, drive.driver.location.longitude),
+      infoWindow: InfoWindow(
+        title: drive.driver.name, snippet: "Startpunkt"
+      )
+    ));
+    markerId++;
+    drive.passengers.forEach((x) => _markers.add(
+        new Marker(
+          markerId: MarkerId(markerId.toString()),
+          position: LatLng(x.location.latitude, x.location.longitude),
+          infoWindow: InfoWindow(
+            title: x.name, snippet: "Haltepunkt " + (markerId++).toString()
+          )
+        )));
+    _markers.add(Marker(
+        markerId: MarkerId((markerId++).toString()),
+        position: LatLng(drive.game.destination.latitude, drive.game.destination.longitude),
         infoWindow: InfoWindow(
-            title: "Techbase Regensburg", snippet: "Hackaburg 2019")));
+            title: drive.game.homeTeam.name, snippet: "Ziel")));
     return DefaultTabController(
         length: 3,
         initialIndex: 1,
