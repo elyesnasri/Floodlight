@@ -17,12 +17,21 @@ class Drive {
   });
 
   factory Drive.fromJson(Map<String, dynamic> json) {
+    print(json["passengerMappings"]);
     return Drive(
       driveId: json["id"] as String,
       freeSeats: json["seats"] as int,
       driver: new User.fromJson(json["driverMapping"]),
-      passengers: (json["passengerMappings"] as List).map((entry) => User.fromJson(entry)).toList(),
+      passengers: (parseUser(json)).map((entry) => User.fromJson(entry)).toList(),
       game: new Game.fromJson(json["game"]),
     );
+  }
+
+  static List parseUser(Map<String, dynamic> map) {
+    if (map["passengerMappings"] == null) {
+      return List();
+    } else {
+      return map["passengerMappings"] as List;
+    }
   }
 }

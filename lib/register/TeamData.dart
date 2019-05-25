@@ -1,3 +1,5 @@
+import 'package:floodlight/datamodel/Game.dart';
+
 class Team {
   String id;
   String name;
@@ -22,3 +24,5 @@ final List<Team> teams = <Team>[
     ..name = "SSV Jahn Regensburg"
     ..logoURI = "lib/assets/Jahn_Logo.png",
 ];
+
+final List<Game> games = <Game>[];

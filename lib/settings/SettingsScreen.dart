@@ -1,3 +1,4 @@
+import 'package:floodlight/data/UserData.dart';
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -16,11 +17,10 @@ class _settingsScreenState extends State<SettingsScreen> {
     var longController = new TextEditingController();
     var latController = new TextEditingController();
 
-    // TODO fill with actual user Data
-    idController.text = "444";
-    longController.text = "49.0192896";
-    latController.text = "12.1012224";
-    nameController.text = "Simon Burger";
+    idController.text = mainUser.username;
+    longController.text = mainUser.location.longitude.toString();
+    latController.text = mainUser.location.latitude.toString();
+    nameController.text = mainUser.name;
 
     return Scaffold(
       appBar: AppBar(
@@ -62,24 +62,19 @@ class _settingsScreenState extends State<SettingsScreen> {
   }
 
   void editId(String id) {
-    print("edited id");
-    // TODO edit user data
+    mainUser.username = id;
   }
 
   void editName(String name) {
-    print("edited name");
-    // TODO edit user data
+    mainUser.name = name;
   }
 
   void editLongitude(String longitude) {
-    print("edited longitude");
-    // TODO edit user data
+    mainUser.location.longitude = double.parse(longitude);
   }
 
   void editLatitude(String latitude) {
-    print("edited latitude");
-
-    // TODO edit user data
+    mainUser.location.latitude = double.parse(latitude);
   }
 
 }

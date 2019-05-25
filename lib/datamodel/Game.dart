@@ -21,7 +21,8 @@ class Game {
       id: json["id"] as String,
       homeTeam: new Team.fromJson(json["homeTeam"]),
       awayTeam: new Team.fromJson(json["awayTeam"]),
-      destination: new Location.fromJson(json["location"])
+      destination: new Team.fromJson(json["homeTeam"]).location,
+      date: DateTime.fromMillisecondsSinceEpoch(json["date"] as int)
     );
   }
 }

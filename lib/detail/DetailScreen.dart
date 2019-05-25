@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import 'package:date_format/date_format.dart';
+import 'package:floodlight/datamodel/Drive.dart';
+import 'package:floodlight/register/TeamData.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +31,8 @@ class _DetailScreenState extends State<DetailScreen> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    final Drive drive = ModalRoute.of(context).settings.arguments;
+
     final Set<Marker> _markers = {};
     _markers.add(Marker(
         markerId: MarkerId("1"),
@@ -67,7 +72,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 child: Row(
                                   children: <Widget>[
                                     new Image.asset(
-                                      'lib/assets/Jahn_Logo.png',
+                                      teams.where((x) => x.id == drive.game.homeTeam.id).first.logoURI,
                                       width: 75.0,
                                       height: 75.0,
                                     ),
@@ -81,7 +86,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                         textScaleFactor: 3,
                                       ),
                                     new Image.asset(
-                                      'lib/assets/Jahn_Logo.png',
+                                      teams.where((x) => x.id == drive.game.awayTeam.id).first.logoURI,
                                       width: 75.0,
                                       height: 75.0,
                                     ),
@@ -94,7 +99,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 padding: EdgeInsets.symmetric(vertical: 10),
                                 child:
                                   Text(
-                                    "18.00 Uhr",
+                                    formatDate(drive.game.date, [HH, ':', nn, ' Uhr']),
                                     style:
                                       TextStyle(
                                       color: Colors.white
@@ -112,7 +117,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 padding: EdgeInsets.symmetric(vertical: 18),
                                 child:
                                 Text(
-                                  "24.05.2019",
+                                  formatDate(drive.game.date, [dd, '.', mm, '.', yy]),
                                   style: TextStyle(
                                       color: Colors.white
                                   ),
@@ -127,7 +132,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           padding: EdgeInsets.symmetric(horizontal: 24),
                           child: Scrollbar(
                             child: ListView.builder(
-                              itemCount: 8,
+                              itemCount: drive.passengers.length,
                               itemBuilder: (context, position) {
                                 return Column(
                                   children: <Widget>[
@@ -141,7 +146,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                         ),
                                       ),
                                       child: ListTile(
-                                        title: Text("kajdflkdsjlk"),
+                                        title: Text(drive.passengers[position].name),
                                         leading: Icon(Icons.person),
                                       ),
                                     )
