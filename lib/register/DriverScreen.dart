@@ -74,8 +74,8 @@ class _NumberCountDemoState extends State<DriverScreen> {
         visible: _isVisible,
         child: FloatingActionButton(
           onPressed: () {
-            ConfirmBuy.showDriverPopUp(context, "Fahrt veröftlichen?",
-                "Andere können sich bei dir melden.", "weiter", game, _n);
+            ConfirmBuy.showDriverPopUp(context, "Fahrt veröffentlichen?",
+                "Mitfahrer können sich bei dir melden.", "weiter", game, _n);
 
           },
           child: Icon(Icons.check),
