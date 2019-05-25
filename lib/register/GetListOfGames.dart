@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'TeamData.dart';
+
 class GetListOfGames extends StatefulWidget {
   @override
   _GetListOfGamesState createState() => _GetListOfGamesState();
@@ -11,7 +13,6 @@ class _GetListOfGamesState extends State<GetListOfGames> {
     "03.05.2019",
     "12.06.2019",
     "04.09.2019",
-    "19.09.2019",
   ];
 
   _onSelected(int index) {
@@ -52,7 +53,7 @@ class _GetListOfGamesState extends State<GetListOfGames> {
                               textScaleFactor: 3,
                             ),
                             new Image.asset(
-                              'lib/assets/Jahn_Logo.png',
+                              teams[index].logoURI,
                               width: 75.0,
                               height: 75.0,
                             ),
