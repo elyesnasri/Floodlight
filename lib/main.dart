@@ -3,6 +3,7 @@ import 'package:floodlight/home/HomeScreen.dart';
 import 'package:floodlight/register/RegisterDriverScreen.dart';
 import 'package:floodlight/register/RegisterPassengerScreen.dart';
 import 'package:floodlight/register/RegisterScreen.dart';
+import 'package:floodlight/settings/SettingsScreen.dart';
 import 'package:floodlight/splash/SplashScreen.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +36,8 @@ class MyApp extends StatelessWidget {
         Routes.detailScreen: (context) => DetailScreen(),
         Routes.registerScreen: (context) => RegisterScreen(),
         Routes.registerDriverScreen: (context) => RegisterDriverScreen(),
-        Routes.registerPassengerScreen: (context) => RegisterPassengerScreen()
+        Routes.registerPassengerScreen: (context) => RegisterPassengerScreen(),
+        Routes.settingsScreen: (context) => SettingsScreen()
       }
     );
   }
