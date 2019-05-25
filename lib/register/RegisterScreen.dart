@@ -18,7 +18,7 @@ class RegisterScreen extends StatelessWidget {
                 Tab(icon: Icon(Icons.airline_seat_recline_normal)),
               ],
             ),
-            title: Text('Register'),
+            title: Text('Fahrten'),
           ),
           body: TabBarView(
             children: [
