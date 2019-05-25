@@ -162,7 +162,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                       decoration: BoxDecoration(
                                         border: Border(
                                           bottom: BorderSide(
-                                            width: position == 0 ? 0.5 : 0.2,
+                                            width: position == 0 ? 1.5 : 0.2,
                                             color: position == 0 ? Colors.red : Colors.black,
                                           ),
                                         ),
