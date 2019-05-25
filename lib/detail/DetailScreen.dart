@@ -93,7 +93,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 child: Row(
                                   children: <Widget>[
                                     new Image.asset(
-                                      teams.where((x) => x.id == drive.game.homeTeam.id).first.logoURI,
+                                      iconMapping[drive.game.homeTeam.id],
                                       width: 75.0,
                                       height: 75.0,
                                     ),
@@ -107,7 +107,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                         textScaleFactor: 3,
                                       ),
                                     new Image.asset(
-                                      teams.where((x) => x.id == drive.game.awayTeam.id).first.logoURI,
+                                      iconMapping[drive.game.awayTeam.id],
                                       width: 75.0,
                                       height: 75.0,
                                     ),
