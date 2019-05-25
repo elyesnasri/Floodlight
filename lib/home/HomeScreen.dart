@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 } else {
                   _hiddenUserSettingsCounter = 0;
                   print("Enter unser data");
-                  // TODO: Implement change of user data
+                  Navigator.of(context).pushNamed(Routes.settingsScreen);
                 }
               },
             ),
